@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"> 
+
+	{% if title %}
+		<title>Wallet - {{title}} </title>
+	{% else %}
+		<title>Wallet</title>
+	{% endif %}
+
+	<script>
+        window.onload = function () {
+
+  
+   			$(document).on('click', '.media-body', function () {
+				x = this.getElementsByClassName('tohide')[0];
+				if (x.style.display === 'none')
+					$(this).find('.tohide').show();
+				else
+					$(this).find('.tohide').hide();
+			});
+
+            document.getElementById("btnGet").onclick = function () {
+                var xhr = new XMLHttpRequest();          // Создание объекта для HTTP запроса.
+				var val = document.getElementById("inp_string").value;
+
+				document.getElementById("inp_string").value = '';
+
+                xhr.open("GET", "/address?address=" + val, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == XMLHttpRequest.DONE) { // если получен ответ
+                        if (xhr.status == 201) { // и если статус код ответа 200
+							var obj = xhr.responseText;
+							document.getElementById("quer").innerHTML = obj;
+                        }
+						else {
+							document.getElementById("quer").innerHTML = 'Error';
+						}
+                    }
+                }
+				xhr.send();  
+	            }
+
+	     }    </script>
+
+
+  </head>
+  <body>
+	  <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style='background-color: lightblue;'>
+        <div class="container">
+			<h1> ETH test Wallet </h1>
+	  	</div>
+      </nav>
+      </header>
+	  	<div class="container" id='context'>
+			<h3> {{title}} </h3>
+		  {% block content %}{% endblock %}
+		  <p id='quer'>
+		</div>
+
+	  <!-- Optional JavaScript -->
+	  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	  <script type="text/javascript" src="{{ url_for('static', filename='web3.js') }}"></script>
+	  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

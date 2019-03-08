@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+<table align="center" width=75% border=2px>
+	{% for i in data %}
+	<tr>
+		<td>{{ i }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock content %}
